@@ -1,0 +1,46 @@
+#test login and logout
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+import time
+
+def Browsertest(driver): #function for test of web in one browser
+    driver.get("https://cs.laurie-project.com/login")  # page load
+    time.sleep(1)  # wait 1 second
+    confirmation = driver.find_element(by="xpath", value="//button[@aria-label='Close reveal']")
+    confirmation.click()  # pop up confirmation
+    login_field = driver.find_element(by="id", value="username-label")
+    login_field.send_keys("TestovaciUcet")  # filling in the username
+    password_field = driver.find_element(by="id", value="pw-label")
+    password_field.send_keys("Heslo123")  # filling in the passworld
+    login_button = driver.find_element(by="id", value="register-label")
+    login_button.click()  # sending a login
+    if driver.current_url == "https://cs.laurie-project.com/home":  # login was succesful
+        out_link = driver.find_element(by="xpath", value="//a[text()='Odhlásit se']")
+        out_link.click()  # logout
+    else:
+        print("Chyba přihlášení")  # error of login
+
+def BrowserFirefox(): #definition of parametres for Firefox browser
+    ser = Service("geckodriver.exe")
+    op = webdriver.FirefoxOptions()
+    s = webdriver.Firefox(service=ser, options=op)
+    driver = s
+    return driver
+
+def BrowserChrome():#definition of parametres for Chrome browser
+    ser = Service("chromedriver.exe")
+    op = webdriver.ChromeOptions()
+    s = webdriver.Chrome(service=ser, options=op)
+    driver = s
+    return driver
+
+start = time.time() #time of test
+for index in range (2):#automatic opening of window in two browser
+    if index ==0:
+        driver = BrowserChrome()#choose browser - chrome
+    else:
+        driver = BrowserFirefox()#choose browser - firefox
+    Browsertest(driver) #test in one browser
+end = time.time()
+print("Doba trvání testu v sekundách je", end-start)#printing of test time
