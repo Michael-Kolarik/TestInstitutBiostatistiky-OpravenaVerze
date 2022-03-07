@@ -1,4 +1,5 @@
-#test login and logout
+#test login and logout. It is assumed that the Python interpreter and Chrome and Firefox browsers are installed on the device. 
+#It is assumed that the geckodriver and chromedriver drivers are in the same directory as the running program.
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
